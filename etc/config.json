@@ -1,0 +1,59 @@
+{
+  // debug 
+  "debug": true, 
+  
+  // colors 
+  "colors": {
+    "fg": {
+      "red": "#ff0000",
+      "gray": "#cccccc"
+    },
+
+    "bg": {
+      "black": "#000",
+      "red": "#f00",
+      "yellow": "#cfd1bc"
+    }
+  },
+
+  // message 
+  "message": {
+    // templates 
+    "template" : {
+      "dateUnit" : {
+        "template" : "[-date--:-unit--] ::> -prefix-- -message--"
+      },
+      
+      "dateUnitNumber" : {
+        "template" : "[-date--:-unit--:-number--] ::> -prefix-- -message--"
+      },
+      
+      "date" : {
+        "template" : "[-date--] ::> -prefix-- -message--"
+      }
+    },
+
+    // types 
+    "type" : {
+      "normal" : {
+        "prefix" : "",
+        "color" : "#fff"
+      },
+      
+      "error" : {
+        "prefix" : "/e/",
+        "color" : "#f00"
+      },
+      
+      "info" : {
+        "prefix" : "/i/",
+        "color" : "#989898"
+      },
+      
+      "debug" : {
+       "prefix" : "/d/",
+        "color" : "#cfd1bc"
+      }
+    }
+  }
+}
