@@ -7,10 +7,8 @@
  * libs
  */
 import chalk from 'chalk'
-import { unsubscribe } from 'diagnostics_channel'
 import * as fs from "fs"
 import JSON5 from "json5"
-import { inspect } from 'util'
 
 /**
  * vars
@@ -23,7 +21,7 @@ let configFile = "./etc/config.json"
 /**
  * Printing class
  */
-class Printing {
+export class Printing {
   /**
    * 
    * @param {boolean} debug true(def) | false
@@ -191,32 +189,80 @@ class Printing {
   }
 
 
+
+
+// create new Printing object
 const pr = new Printing()
 
-//
-let res = fs.readFile(configFile, 'utf-8', (err, data) => {
-  if (err) {
-    pr.pE(`config file ${configFile} problem`)
-    process.exit(1)
-  }
-  
-  // config json
-  let jsonC = JSON5.parse(data)
-  
-  pr.setdDebug(jsonC.debug)
-  if (jsonC.message !== undefined ) {
-    pr.setMessage(jsonC.message)
+let readConfig = new Promise((resolve, reject) => {
+  // read config
+  let res = fs.readFile(configFile, 'utf-8', (err, data) => {
+    if (err) {
+      let errMsg = `config file ${configFile} problem`
+      reject(errMsg)
     }
-  
-  pr.pP( { msg: "default", type: "default" } ) 
-  pr.pP( { msg: "white", type: "white" } ) 
-  pr.pE( { msg: "error" } )
-  pr.pI({msg: "info"})
-  pr.pD({msg:"debug"})
+    
+    // config json
+    let jsonC = JSON5.parse(data)
 
-  pr.pP({msg: "unit and unit+number tests", type: "white"})
-  pr.pP({msg: "dateUnit, unit not set", type: "white", template: "dateUnit"})
-  pr.pP({msg: "dateUnit", template: "dateUnit", unit: "WHITE"})
-  pr.pE({msg: "dateUnitNumber, all set", template: "dateUnitNumber", unit: "ERR", number: "1111"})
-  pr.pE({msg: "dateUnitNumber, all not set", template: "dateUnitNumber"})
-})
+    resolve(new Promise((resolve, reject) => {
+      if (jsonC === undefined) reject(`error parse JSON\njsonC <= ${jsonC}`)
+
+      // update values from config
+      pr.setdDebug(jsonC.debug)
+      if (jsonC.message !== undefined ) pr.setMessage(jsonC.message)
+
+      resolve(new Promise((resolve, reject) => {
+        try {
+          // test print
+          pr.pP( { msg: "default", type: "default" } ) 
+          pr.pP( { msg: "white", type: "white" } ) 
+          pr.pE( { msg: "error" } )
+          pr.pI({msg: "info"})
+          pr.pD({msg:"debug"})
+
+          pr.pP({msg: "unit and unit+number tests", type: "white"})
+          pr.pP({msg: "dateUnit, unit not set", type: "white", template: "dateUnit"})
+          pr.pP({msg: "dateUnit", template: "dateUnit", unit: "WHITE"})
+          pr.pE({msg: "dateUnitNumber, all set", template: "dateUnitNumber", unit: "ERR", number: "1111"})
+          pr.pE({msg: "dateUnitNumber, all not set", template: "dateUnitNumber"})
+          resolve(true)
+          } catch {
+            reject("error while printing throw pr object")
+          }
+        }))
+      }))
+    })
+  })
+
+
+// // read config
+// let res = fs.readFile(configFile, 'utf-8', (err, data) => {
+//   if (err) {
+//     pr.pE(`config file ${configFile} problem`)
+//     process.exit(1)
+//   }
+  
+//   // config json
+//   let jsonC = JSON5.parse(data)
+  
+//   // update values from config
+//   pr.setdDebug(jsonC.debug)
+//   if (jsonC.message !== undefined ) {
+//     pr.setMessage(jsonC.message)
+//     }
+  
+
+//   // test print
+//   pr.pP( { msg: "default", type: "default" } ) 
+//   pr.pP( { msg: "white", type: "white" } ) 
+//   pr.pE( { msg: "error" } )
+//   pr.pI({msg: "info"})
+//   pr.pD({msg:"debug"})
+
+//   pr.pP({msg: "unit and unit+number tests", type: "white"})
+//   pr.pP({msg: "dateUnit, unit not set", type: "white", template: "dateUnit"})
+//   pr.pP({msg: "dateUnit", template: "dateUnit", unit: "WHITE"})
+//   pr.pE({msg: "dateUnitNumber, all set", template: "dateUnitNumber", unit: "ERR", number: "1111"})
+//   pr.pE({msg: "dateUnitNumber, all not set", template: "dateUnitNumber"})
+// })
