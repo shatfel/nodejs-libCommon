@@ -1,58 +1,59 @@
 {
-  // debug 
-  "debug": true, 
-  
-  // colors 
-  "colors": {
-    "fg": {
-      "red": "#ff0000",
-      "gray": "#cccccc"
-    },
+  // debug
+  "debug": true,
 
-    "bg": {
-      "black": "#000",
-      "red": "#f00",
-      "yellow": "#cfd1bc"
-    }
-  },
-
-  // message 
+  /**
+   * message object
+   */
   "message": {
-    // templates 
-    "template" : {
-      "dateUnit" : {
-        "template" : "[-date--:-unit--] ::> -prefix-- -message--"
+    // message templates
+    "template": {
+      "default": "dateOnly",
+
+      "dateUnit": {
+        "template": "[-date--:-unit--] ::> -prefix-- -message--"
       },
-      
-      "dateUnitNumber" : {
-        "template" : "[-date--:-unit--:-number--] ::> -prefix-- -message--"
+
+      "dateUnitNumber": {
+        "template": "[-date--:-unit--:-number--] ::> -prefix-- -message--"
       },
-      
-      "date" : {
-        "template" : "[-date--] ::> -prefix-- -message--"
+
+      "dateOnly": {
+        "template": "[-date--] ::> -prefix-- -message--"
       }
     },
 
-    // types 
-    "type" : {
-      "normal" : {
-        "prefix" : "",
-        "color" : "#fff"
+
+    // message types
+    "type": {
+      "default": {
+        "prefix": "",
+        "fg": "",
+        "bg": ""
       },
-      
-      "error" : {
-        "prefix" : "/e/",
-        "color" : "#f00"
+
+      "white": {
+        "prefix": "",
+        "bg": "#000000",
+        "fg": "#ffffff"
       },
-      
-      "info" : {
-        "prefix" : "/i/",
-        "color" : "#989898"
+
+      "error": {
+        "prefix": "/e/",
+        "fg": "#ffffff",
+        "bg": "#ff0000"
       },
-      
-      "debug" : {
-       "prefix" : "/d/",
-        "color" : "#cfd1bc"
+
+      "info": {
+        "prefix": "/i/",
+        "bg": "#000000",
+        "fg": "#83DBCD"
+      },
+
+      "debug": {
+        "prefix": "/d/",
+        "bg": "#E6FF04FF",
+        "fg": "#0800F3"
       }
     }
   }
